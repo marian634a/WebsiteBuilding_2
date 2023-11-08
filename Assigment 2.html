@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment 2 - Website Building</title>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+    <style>
+
+body {
+    box-sizing: border border-box;
+    font-family: 'Times New Roman', Times, serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-container {  
+    height: 65vh;
+    width: 50vw;
+    background-color: #b59cd6;
+    box-shadow: 13px 13px 20px #452d61;
+    padding: 40px 35px 35px 35px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.username, .password{
+    height: 7vh;
+    display: flex;
+    flex-direction: column;
+    font-size: 20px;
+    width: 30vw;
+    margin: 2.5vh;
+}
+
+.username-container, .password-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.username-container input, .password-container input  {
+    height: 6vh;
+    border-radius: 20px;
+    margin: 1vh 0;
+    padding: 0 0 0 20px;
+    font-size: 1em;
+}
+
+
+.username label, .password label {
+    font-weight: bold;
+    padding-left: 6px;
+}
+
+.submit {
+    margin-top: 3vh;
+    height: 6vh;
+    width: 22vw;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1.2em;
+    font-weight: 600;
+    color: #fff;
+    background: rgba(73, 53, 121, 0.486);
+    border: 5px;
+    transform: translateY(-3px);
+}
+
+.submit:active {
+    transform: translateY(3px);
+    box-shadow: none;
+}
+
+.corect-username {
+    position: relative;
+    z-index: 2;
+    top: -6vh;
+    left: 27vw;
+    display: none;
+    visibility: hidden;
+}
+
+.wrong-username {
+    position: relative;
+    z-index: 3;
+    top: -6vh;
+    left: 27vw;
+    visibility: hidden;
+}
+
+.corect-password {
+    position: relative;
+    z-index: 2;
+    top: -6vh;
+    left: 27vw;
+    display: none;
+    visibility: hidden;
+}
+
+.wrong-password {
+    position: relative;
+    z-index: 3;
+    top: -6vh;
+    left: 27vw;
+    visibility: hidden;
+}
+
+.corect {
+    color: green;
+    border: solid green;
+}
+
+.corect-icon {
+    visibility: visible;
+    color: green;
+
+}
+
+.wrong {
+    color: red;
+    border: solid red;
+}
+
+.wrong-icon {
+    visibility: visible;
+    color: red;
+}
+
+.message {
+    margin: 2vh 0;
+    width: 30vw;
+    padding-left: 6px;
+    font-size: 0.9em;
+    font-style: italic;
+    text-align: center;
+}
+
+    </style>
+
+</head>
+<body>
+    <div class="login-container">
+        <div class="username">
+            <div class="username-container">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username">
+            </div>
+            <i class="material-icons corect-username">done</i>
+            <i class="material-icons wrong-username">close</i>
+        </div>
+        
+        <div class="password">
+            <div class="password-container">
+                <label for="pass">Password:</label>
+                <input type="password" id="password" name="password">
+            </div>
+            <i class="material-icons corect-password">done</i>
+            <i class="material-icons wrong-password">close</i>
+        </div>
+        
+        <input type="submit" value="Login" class="submit" id="submit">
+
+        <div class="message"></div>
+
+    </div>
+
+<script>
+
+
+var username = document.getElementById("username")
+var password = document.getElementById("password")
+var submit = document.querySelector("#submit")
+var message = document.querySelector(".message")
+
+submit.addEventListener("click", check)
+
+function check () {
+    checkUsername()
+    checkPassword()
+
+    if (username.value === "" && password.value === "") {
+        message.innerHTML = "Please enter a username and a password!"
+    }
+    else if (username.value === "" && password.value === "123456789") {
+        message.innerHTML = "Please enter a username!"
+    }
+    else if (username.value === "new_user" && password.value === "") {
+        message.inner.HTML = "Please enter a password!"
+    }
+    else if (username.value!== "new_user" && password.value === "123456789") {
+        message.innerHTML = "Please enter a valid username!"
+    }
+    else if (username.value === "new_user" && password.value!== "123456789") {
+        message.innerHTML = "Please enter a valid password!"
+    }
+    else if (username.value!== "new_user" && password.value!== "123456789") {
+        message.innerHTML = "Please enter a valid username and a valid password!"
+    }
+    else if (username.value!== "new_user" && password.value === "") {
+        message.innerHTML = "Please enter a valid username and a password!"
+    }
+    else if (username.value === "" && password.value!== "123456789") {
+        message.innerHTML = "Please enter a username and a valid password!"
+    }  
+    else {
+        message.innerHTML = "Succesful login!"
+    }
+}
+
+
+function checkUsername () {
+    if (username.value === "new_user") {
+        document.querySelector(".username-container input").classList.add("corect")
+        document.querySelector(".corect-username").classList.add("corect-icon")
+        document.querySelector(".username-container input").classList.remove("wrong")
+        document.querySelector(".wrong-username").classList.remove("wrong-icon")
+    }else {
+        document.querySelector(".username-container input").classList.add("wrong")
+        document.querySelector(".wrong-username").classList.add("wrong-icon")
+        document.querySelector(".username-container input").classList.remove("corect")
+        document.querySelector(".corect-username").classList.remove("corect-icon")
+    }
+}
+
+function checkPassword () {
+    if (password.value === "123456789") {
+        document.querySelector(".password-container input").classList.add("corect")
+        document.querySelector(".corect-password").classList.add("corect-icon")
+        document.querySelector(".password-container input").classList.remove("wrong")
+        document.querySelector(".wrong-password").classList.remove("wrong-icon")
+    }else {
+        document.querySelector(".password-container input").classList.add("wrong")
+        document.querySelector(".wrong-password").classList.add("wrong-icon")
+        document.querySelector(".password-container input").classList.remove("corect")
+        document.querySelector(".corect-password").classList.remove("corect-icon")
+    }
+}
+
+</script>
+
+</body>
+</html>
